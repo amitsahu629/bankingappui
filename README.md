@@ -4,7 +4,7 @@
 
 A responsive and user-friendly frontend for a modern **Online Banking Application**, developed using **Angular**. This project is built to provide seamless interaction for retail users to manage their banking needs — including account management, transactions, history, and authentication.
 
-🚀 **Live Demo**: [View App](https://amitsahu629.github.io/bankingappui)
+🚀 **Live Demo**: [View App](https://amitsahu629.github.io/bankingappui/)
 
 ---
 
