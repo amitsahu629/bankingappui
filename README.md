@@ -1,5 +1,4 @@
 
-````markdown
 # 💰 BankingApp UI
 
 A responsive and user-friendly frontend for a modern **Online Banking Application**, developed using **Angular**. This project is built to provide seamless interaction for retail users to manage their banking needs — including account management, transactions, history, and authentication.
