@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureBank - Online Banking</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-university"></i> SecureBank
+            </div>
+            <div class="user-info" id="userInfo">
+                <span>Welcome, <span id="username"></span></span>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Alerts -->
+        <div class="alert" id="alert">
+            <span id="alertMessage"></span>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Processing...</p>
+        </div>
+
+        <!-- Authentication Forms -->
+        <div class="auth-container" id="authContainer">
+            <!-- Login Form -->
+            <div class="auth-form active" id="loginForm">
+                <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">
+                    <i class="fas fa-lock"></i> Login
+                </h2>
+                <form onsubmit="login(event)">
+                    <div class="form-group">
+                        <label for="loginUsername">Username</label>
+                        <input type="text" id="loginUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    <button type="submit" class="btn">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </form>
+                <div class="toggle-link" onclick="toggleForm('register')">
+                    Don't have an account? Register here
+                </div>
+            </div>
+
+            <!-- Registration Form -->
+            <div class="auth-form" id="registerForm">
+                <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">
+                    <i class="fas fa-user-plus"></i> Register
+                </h2>
+                <form onsubmit="register(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerUsername">Username</label>
+                        <input type="text" id="registerUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" required>
+                    </div>
+                    <button type="submit" class="btn">
+                        <i class="fas fa-user-plus"></i> Register
+                    </button>
+                </form>
+                <div class="toggle-link" onclick="toggleForm('login')">
+                    Already have an account? Login here
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard" id="dashboard">
+            <!-- Account Overview -->
+            <div class="dashboard-grid">
+                <div class="card account-card">
+                    <h3><i class="fas fa-credit-card"></i> Account Overview</h3>
+                    <div id="accountsList">
+                        <!-- Accounts will be populated here -->
+                    </div>
+                    <button class="btn" onclick="createAccount()" style="margin-top: 15px;">
+                        <i class="fas fa-plus"></i> Create New Account
+                    </button>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-chart-line"></i> Quick Actions</h3>
+                    <div class="transaction-tabs">
+                        <button class="tab-btn active" onclick="showTransactionForm('deposit')">
+                            <i class="fas fa-plus-circle"></i> Deposit
+                        </button>
+                        <button class="tab-btn" onclick="showTransactionForm('withdraw')">
+                            <i class="fas fa-minus-circle"></i> Withdraw
+                        </button>
+                        <button class="tab-btn" onclick="showTransactionForm('transfer')">
+                            <i class="fas fa-exchange-alt"></i> Transfer
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transaction Forms -->
+            <div class="transaction-form active" id="depositForm">
+                <h3><i class="fas fa-plus-circle"></i> Deposit Money</h3>
+                <form onsubmit="deposit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="depositAccount">Account</label>
+                            <select id="depositAccount" required>
+                                <option value="">Select Account</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="depositAmount">Amount</label>
+                            <input type="number" id="depositAmount" step="0.01" min="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="depositDescription">Description</label>
+                        <input type="text" id="depositDescription" placeholder="Optional description">
+                    </div>
+                    <button type="submit" class="btn">
+                        <i class="fas fa-check"></i> Deposit
+                    </button>
+                </form>
+            </div>
+
+            <div class="transaction-form" id="withdrawForm">
+                <h3><i class="fas fa-minus-circle"></i> Withdraw Money</h3>
+                <form onsubmit="withdraw(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="withdrawAccount">Account</label>
+                            <select id="withdrawAccount" required>
+                                <option value="">Select Account</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="withdrawAmount">Amount</label>
+                            <input type="number" id="withdrawAmount" step="0.01" min="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="withdrawDescription">Description</label>
+                        <input type="text" id="withdrawDescription" placeholder="Optional description">
+                    </div>
+                    <button type="submit" class="btn">
+                        <i class="fas fa-check"></i> Withdraw
+                    </button>
+                </form>
+            </div>
+
+            <div class="transaction-form" id="transferForm">
+                <h3><i class="fas fa-exchange-alt"></i> Transfer Money</h3>
+                <form onsubmit="transfer(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="transferFromAccount">From Account</label>
+                            <select id="transferFromAccount" required>
+                                <option value="">Select Account</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="transferToAccount">To Account Number</label>
+                            <input type="text" id="transferToAccount" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="transferAmount">Amount</label>
+                            <input type="number" id="transferAmount" step="0.01" min="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="transferDescription">Description</label>
+                            <input type="text" id="transferDescription" placeholder="Optional description">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn">
+                        <i class="fas fa-check"></i> Transfer
+                    </button>
+                </form>
+            </div>
+
+            <!-- Transaction History -->
+            <div class="transaction-history">
+                <h3><i class="fas fa-history"></i> Recent Transactions</h3>
+                <div id="transactionsList">
+                    <!-- Transactions will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"> </script>
+</body>
+</html>
